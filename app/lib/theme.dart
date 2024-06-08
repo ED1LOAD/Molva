@@ -2,26 +2,37 @@ import 'package:flutter/material.dart';
 
 const blue1 = Color(0xFF0582EE);
 const blue2 = Color(0xFF37ADF5);
+const background = Color(0xFFF5F5F7);
 const gradient = RadialGradient(
   center: Alignment.center,
-  colors: [Color(0xFF07B7F8), Color(0xFF0582EE)],
+  colors: [
+    const Color(0xFF07B7F8), // #07B7F8
+    const Color(0xFF0582EE), // #0582EE
+  ],
+  stops: const [0.0, 1.0], // Start and end position for color transition
+  radius: 3.0,
 );
 
 const customTheme = TextTheme(
   bodySmall: TextStyle(
+    fontFamily: "Graphik LCG",
     color: Colors.grey,
     fontWeight: FontWeight.w100,
     fontSize: 16,
+    height: 19.2 / 16,
   ),
   bodyMedium: TextStyle(
+    fontFamily: "Graphik LCG",
     color: Colors.black,
     fontWeight: FontWeight.bold,
     fontSize: 14,
   ),
   bodyLarge: TextStyle(
+    fontFamily: "Graphik LCG",
     color: Colors.black,
     fontWeight: FontWeight.bold,
     fontSize: 32,
+    height: 38.4 / 32,
   ),
 );
 

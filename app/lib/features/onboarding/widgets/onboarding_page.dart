@@ -6,14 +6,8 @@ class MegaPhone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Align(
-          alignment: Alignment.centerRight,
-          child: Image.asset(
-            'assets/onboarding/megaphone.png',
-            height: 300,
-          ),
-        ),
         Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: Align(
@@ -23,6 +17,7 @@ class MegaPhone extends StatelessWidget {
               children: [
                 Text('Исследуйте новый канал привлечения сотрудников',
                     style: Theme.of(context).textTheme.bodyLarge),
+                const SizedBox(height: 20),
                 Text('Размещайте вакансию или привлекайте кандидатов',
                     style: Theme.of(context).textTheme.bodySmall),
               ],
@@ -40,14 +35,8 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Align(
-          alignment: Alignment.centerRight,
-          child: Image.asset(
-            'assets/onboarding/settings.png',
-            height: 300,
-          ),
-        ),
         Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: Align(
@@ -57,6 +46,7 @@ class Settings extends StatelessWidget {
               children: [
                 Text('Рекомендации по кандидатам и флоу',
                     style: Theme.of(context).textTheme.bodyLarge),
+                const SizedBox(height: 20),
                 Text('Ведения теперь в одном месте',
                     style: Theme.of(context).textTheme.bodySmall),
               ],
@@ -74,14 +64,8 @@ class Contract extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Align(
-          alignment: Alignment.centerRight,
-          child: Image.asset(
-            'assets/onboarding/contract.png',
-            height: 300,
-          ),
-        ),
         Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: Align(

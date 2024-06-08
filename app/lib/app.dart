@@ -18,6 +18,7 @@ class App extends StatelessWidget {
       ),
       routes: {
         '/': (context) => OnboardingScreen(),
+        '/toregistration': (context) => ToRegistration(),
         '/login': (context) => LoginScreen(),
         '/authorization': (context) => AuthorizationScreen(),
         '/home': (context) => HomeScreen(),
