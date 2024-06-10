@@ -1,5 +1,5 @@
-import 'package:app/features/agent_home_page/view/view.dart';
 import 'package:flutter/material.dart';
+import 'vacancy.dart';
 
 class ResponsePage extends StatefulWidget {
   const ResponsePage({super.key});
@@ -16,10 +16,14 @@ class _ResponsePageState extends State<ResponsePage> {
       '+7 999 999 99 99',
       'Описание клиента',
       Vacancy(
-          id: 0,
-          title: 'Вечерний консультант в Тинькофф Банке (удалённо)',
-          description: 'от 35 000 ₽',
-          picture: "assets/tink.png"),
+        id: 0,
+        title: 'Вечерний консультант в Тинькофф Банке (удалённо)',
+        company: "Тинькофф",
+        date: "15 мая",
+        description: 'от 35 000 ₽',
+        picture: "assets/tink.png",
+        cost: 10000,
+      ),
     ),
     Client(
         'Иванов Иван Иванович',
@@ -27,20 +31,28 @@ class _ResponsePageState extends State<ResponsePage> {
         '+7 999 999 99 99',
         'Описание клиента',
         Vacancy(
-            id: 1,
-            title: 'Финансовый аналитик в Финтех',
-            description: 'от 100 000 ₽',
-            picture: "assets/yandex.png")),
+          id: 1,
+          title: 'Финансовый аналитик в Финтех',
+          company: "Yandex",
+          date: "15 мая",
+          description: 'от 100 000 ₽',
+          picture: "assets/yandex.png",
+          cost: 10000,
+        )),
     Client(
         'Иванов Иван Иванович',
         '5HkI1@example.com',
         '+7 999 999 99 99',
         'Описание клиента',
         Vacancy(
-            id: 2,
-            title: 'Финансовый аналитик в Финтех',
-            description: 'от 100 000 ₽',
-            picture: "assets/yandex.png")),
+          id: 2,
+          title: 'Финансовый аналитик в Финтех',
+          company: "Yandex",
+          date: "15 мая",
+          description: 'от 100 000 ₽',
+          picture: "assets/yandex.png",
+          cost: 10000,
+        )),
   ];
 
   @override

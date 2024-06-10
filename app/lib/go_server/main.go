@@ -1,13 +1,17 @@
 package main
 
 import (
+	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"image"
+	"image/png"
 	"log"
 	"net/http"
+	"os"
 )
 
-<<<<<<< HEAD
 type Credentials struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
@@ -48,37 +52,79 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(response)
 	}
 }
-=======
+
+func getImage(imagePath string) ([]byte, error) {
+	// Открываем файл с изображением
+	file, err := os.Open(imagePath)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	// Декодируем изображение из файла в формате PNG
+	img, _, err := image.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+
+	// Создаем буфер для записи изображения в формате PNG
+	pngBuffer := &bytes.Buffer{}
+
+	// Записываем изображение в буфер
+	err = png.Encode(pngBuffer, img)
+	if err != nil {
+		return nil, err
+	}
+
+	return pngBuffer.Bytes(), nil
+}
+
+func encodeImage(imagePath string) (string, error) {
+	imageData, err := getImage(imagePath)
+	if err != nil {
+		return "", err
+	}
+	imageString := base64.StdEncoding.EncodeToString(imageData)
+	return imageString, nil
+}
+
 type Vacancy struct {
 	ID           int    `json:"id"`
 	Title        string `json:"title"`
+	Company      string `json:"company"`
+	Date         string `json:"date"`
 	Requirements string `json:"requirements"`
 	Logo         string `json:"logo"`
 	Cost         int    `json:"cost"`
 }
 
->>>>>>> 6840e6d0333e0eed6b418f773c6a07b68c9514cc
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(201)
 		fmt.Fprintln(w, "Hello, world!")
 	})
 
-<<<<<<< HEAD
 	http.HandleFunc("/login", loginHandler)
-=======
 	http.HandleFunc("/vacancies", func(w http.ResponseWriter, r *http.Request) {
 		vacancies := []Vacancy{
-			{ID: 1, Title: "Software Engineer", Requirements: "Experience with Go", Logo: "https://example.com/logo.png", Cost: 10000},
-			{ID: 2, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
-			{ID: 3, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
-			{ID: 4, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
-			{ID: 5, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
-			{ID: 6, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
-			{ID: 7, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
-			{ID: 8, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
-			{ID: 9, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
-			{ID: 10, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
+			{ID: 1, Title: "Golang разработчик", Company: "Ozon", Date: "15 мая", Requirements: "Опыт с Go", Logo: "images/ozon.png", Cost: 100000},
+			{ID: 2, Title: "Курьер", Company: "Ozon", Date: "5 апреля", Requirements: "Без опыта", Logo: "images/ozon.png", Cost: 30000},
+			{ID: 3, Title: "Аналитик данных", Company: "Yandex", Date: "24 апреля", Requirements: "Опыт в аналитике", Logo: "images/yandex.png", Cost: 80000},
+			{ID: 4, Title: "Java разработчик", Company: "Yandex", Date: "7 июня", Requirements: "Опыт в Java", Logo: "images/yandex.png", Cost: 8000},
+			// {ID: 5, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
+			// {ID: 6, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
+			// {ID: 7, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
+			// {ID: 8, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
+			// {ID: 9, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
+			// {ID: 10, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
+		}
+
+		for i := range vacancies {
+			res, err := encodeImage(vacancies[i].Logo)
+			if err != nil {
+				continue
+			}
+			vacancies[i].Logo = res
 		}
 
 		jsonData, err := json.Marshal(vacancies)
@@ -88,13 +134,12 @@ func main() {
 		}
 
 		// Set the response headers
-		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
 		// Write the JSON data to the response body
 		w.WriteHeader(http.StatusOK)
 		w.Write(jsonData)
 	})
 
->>>>>>> 6840e6d0333e0eed6b418f773c6a07b68c9514cc
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
