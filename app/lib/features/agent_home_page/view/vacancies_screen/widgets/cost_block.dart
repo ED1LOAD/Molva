@@ -4,14 +4,24 @@ import 'package:app/theme.dart';
 class CostBlock extends StatelessWidget {
   final String text;
   final String subtext;
+  final TextStyle? subtextStyle;
+
   const CostBlock({
     super.key,
     required this.text,
     required this.subtext,
+    this.subtextStyle,
   });
 
   @override
   Widget build(BuildContext context) {
+    TextStyle style = Theme.of(context).textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
+        );
+    if (subtextStyle != null) {
+      style = subtextStyle!;
+    }
     return Container(
       decoration: BoxDecoration(
         color: background,
@@ -28,7 +38,7 @@ class CostBlock extends StatelessWidget {
               ),
               Text(
                 subtext,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: style,
               ),
             ],
           )),

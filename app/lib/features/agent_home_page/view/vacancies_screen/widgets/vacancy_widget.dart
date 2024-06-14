@@ -1,14 +1,17 @@
 import 'dart:typed_data';
 
+import 'package:app/features/agent_home_page/view/vacancies_screen/view/vacancy_page.dart';
+import 'package:app/features/agent_home_page/view/vacancies_screen/widgets/view.dart';
 import 'package:flutter/material.dart';
 import 'vacancy.dart';
-import 'vacancy_page.dart';
 import 'vacancy_heading.dart';
 import 'vacancy_cost.dart';
 import 'vacancy_date_and_copy.dart';
 
 class VacancyWidget extends StatelessWidget {
-  const VacancyWidget({
+  final LinkGenerator _linkGenerator = LinkGenerator();
+
+  VacancyWidget({
     super.key,
     required this.vacancy,
     required this.imageBytes,
@@ -21,14 +24,22 @@ class VacancyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+      padding: const EdgeInsets.only(
+        left: 8.0,
+        right: 8.0,
+        top: 3.0,
+      ),
       child: Column(
         children: [
           GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => VacancyPage(vacancy)),
+                MaterialPageRoute(
+                    builder: (context) => VacancyPage(
+                          vacancy: vacancy,
+                          imageBytes: imageBytes,
+                        )),
               );
             },
             child: Column(

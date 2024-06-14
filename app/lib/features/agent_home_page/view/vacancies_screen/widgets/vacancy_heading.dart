@@ -17,7 +17,7 @@ class VacancyHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.only(
-        left: 0,
+        left: 5,
         right: 0,
       ),
       trailing: Image.memory(imageBytes),

@@ -28,6 +28,11 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
   final String access_token = "aaa";
   final String agent_id = "aaa";
 
+  final LinkGenerator linkGenerator = LinkGenerator();
+
+  bool _isVacancies = true;
+  bool _isResponds = false;
+
   @override
   void initState() {
     super.initState();
@@ -82,11 +87,27 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
     }
   }
 
+  void _onPressedVacancies() {
+    setState(() {
+      _isVacancies = true;
+      _isResponds = false;
+    });
+  }
+
+  void _onPressedResponds() {
+    setState(() {
+      _isVacancies = false;
+      _isResponds = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
+        backgroundColor: background,
+        clipBehavior: Clip.none,
         title: Text(
           'Список вакансий',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -107,18 +128,35 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
           ),
         ],
       ),
-      body: ListView.builder(
-        controller: _scrollController,
-        itemCount: vacancies.length + 1,
-        itemBuilder: (context, index) {
-          if (index == vacancies.length) {
-            return isLoading ? CircularProgressIndicator() : Container();
-          }
-          final vacancy = vacancies[index];
-          var imageBytes = base64Decode(vacancy.picture);
-          return VacancyWidget(vacancy: vacancy, imageBytes: imageBytes);
-        },
+      body: Column(
+        children: [
+          TopButtons(
+            isVacancies: _isVacancies,
+            onPressedVacancies: _onPressedVacancies,
+            isResponds: _isResponds,
+            onPressedResponds: _onPressedResponds,
+          ),
+          _isVacancies ? Flexible(child: _vacancyListBuilder()) : Container(),
+        ],
       ),
+      // body: _vacancyListBuilder(),
+    );
+  }
+
+  ListView _vacancyListBuilder() {
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      controller: _scrollController,
+      itemCount: vacancies.length + 1,
+      itemBuilder: (context, index) {
+        if (index == vacancies.length) {
+          return isLoading ? CircularProgressIndicator() : Container();
+        }
+        final vacancy = vacancies[index];
+        var imageBytes = base64Decode(vacancy.picture);
+        return VacancyWidget(vacancy: vacancy, imageBytes: imageBytes);
+      },
     );
   }
 }
