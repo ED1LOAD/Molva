@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:app/features/agent_home_page/view/vacancies_screen/view/vacancy_page.dart';
-import 'package:app/features/agent_home_page/view/vacancies_screen/widgets/view.dart';
 import 'package:flutter/material.dart';
 import 'vacancy.dart';
 import 'vacancy_heading.dart';
@@ -9,9 +8,7 @@ import 'vacancy_cost.dart';
 import 'vacancy_date_and_copy.dart';
 
 class VacancyWidget extends StatelessWidget {
-  final LinkGenerator _linkGenerator = LinkGenerator();
-
-  VacancyWidget({
+  const VacancyWidget({
     super.key,
     required this.vacancy,
     required this.imageBytes,

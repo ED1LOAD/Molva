@@ -28,8 +28,6 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
   final String access_token = "aaa";
   final String agent_id = "aaa";
 
-  final LinkGenerator linkGenerator = LinkGenerator();
-
   bool _isVacancies = true;
   bool _isResponds = false;
 
