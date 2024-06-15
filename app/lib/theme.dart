@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const blue1 = Color(0xFF0582EE);
 const blue2 = Color(0xFF37ADF5);
 const background = Color(0xFFF5F5F7);
+const darkgray = Color(0xFF888888);
 const gradient = RadialGradient(
   center: Alignment.center,
   colors: [
