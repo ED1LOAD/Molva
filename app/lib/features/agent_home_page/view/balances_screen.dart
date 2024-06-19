@@ -110,7 +110,16 @@ class _BalancesScreenState extends State<BalancesScreen> {
                     )
                   : Container(),
               const Spacer(),
-              const WithdrawalButton(),
+              WithdrawalButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WithdrawScreen(),
+                    ),
+                  );
+                },
+              ),
               const SizedBox(
                 height: 25,
               ),
@@ -311,14 +320,18 @@ class _BalancesScreenState extends State<BalancesScreen> {
 }
 
 class WithdrawalButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
   const WithdrawalButton({
     super.key,
+    this.text = "Вывод средств",
+    required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: Container(
         height: 36,
         decoration: BoxDecoration(
@@ -370,10 +383,12 @@ class NonFoundImage extends StatelessWidget {
 
 class BalanceBlock extends StatelessWidget {
   final String balance;
+  final String title;
 
   const BalanceBlock({
     super.key,
     required this.balance,
+    this.title = "Баланс:",
   });
 
   @override
@@ -394,7 +409,7 @@ class BalanceBlock extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Баланс:',
+              title,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
@@ -568,5 +583,95 @@ class TopButton extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class WithdrawScreen extends StatefulWidget {
+  const WithdrawScreen({super.key});
+
+  @override
+  State<WithdrawScreen> createState() => _WithdrawScreenState();
+}
+
+class _WithdrawScreenState extends State<WithdrawScreen> {
+  String sum = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: background,
+        appBar: AppBar(
+          backgroundColor: background,
+          centerTitle: true,
+          title: Text(
+            'Вывод средств',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+          ),
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+              top: 25,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const BalanceBlock(
+                  balance: "39000",
+                  title: "Доступно к выводу:",
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "Введите сумму к выводу:",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  onChanged: (value) {
+                    sum = value;
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Сумма',
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    fillColor: background,
+                    filled: true,
+                  ),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w400,
+                      ),
+                ),
+                const Spacer(),
+                WithdrawalButton(
+                  text: "Подтвердить сумму",
+                  onPressed: () {},
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
