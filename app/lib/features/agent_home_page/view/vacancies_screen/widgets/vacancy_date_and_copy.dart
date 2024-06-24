@@ -1,3 +1,4 @@
+import 'package:app/features/agent_home_page/view/vacancies_screen/view/vacacy_response_page.dart';
 import 'package:app/features/agent_home_page/view/vacancies_screen/widgets/view.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,31 @@ class VacancyDateAndCopy extends StatelessWidget {
                 ),
           ),
           const Spacer(),
+          vacancy.hasResponses
+              ? TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            VacancyResponsePage(vacancy: vacancy),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "Отклики",
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 14.0,
+                          color: blue1,
+                        ),
+                  ),
+                )
+              : Container(),
+          vacancy.hasResponses
+              ? const SizedBox(
+                  width: 15,
+                )
+              : Container(),
           Container(
             width: 36,
             height: 36,

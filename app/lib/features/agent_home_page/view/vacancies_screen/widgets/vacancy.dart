@@ -6,6 +6,7 @@ class Vacancy {
   final String description;
   final String picture;
   final int cost;
+  final bool hasResponses;
 
   Vacancy({
     required this.id,
@@ -15,6 +16,7 @@ class Vacancy {
     required this.description,
     required this.picture,
     required this.cost,
+    this.hasResponses = false,
   });
 
   factory Vacancy.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class Vacancy {
       description: json['requirements'] as String,
       picture: json['logo'] as String,
       cost: json['cost'] as int,
+      hasResponses: json['has_responses'] as bool,
     );
   }
 }

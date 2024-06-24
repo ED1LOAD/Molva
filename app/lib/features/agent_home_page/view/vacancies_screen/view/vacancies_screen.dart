@@ -24,7 +24,8 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
 
   int page = 1;
   bool isLoading = false;
-  ScrollController _scrollController = ScrollController();
+  ScrollController _scrollControllerVacancies = ScrollController();
+  ScrollController _scrollControllerResponse = ScrollController();
   final String access_token = "aaa";
   final String agent_id = "aaa";
 
@@ -34,19 +35,19 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
+    _scrollControllerVacancies.addListener(_scrollListener);
     _fetchVacancies();
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _scrollControllerVacancies.dispose();
     super.dispose();
   }
 
   void _scrollListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
+    if (_scrollControllerVacancies.position.pixels ==
+        _scrollControllerVacancies.position.maxScrollExtent) {
       _fetchVacancies();
     }
   }
@@ -134,7 +135,9 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
             isResponds: _isResponds,
             onPressedResponds: _onPressedResponds,
           ),
-          _isVacancies ? Flexible(child: _vacancyListBuilder()) : Container(),
+          _isVacancies
+              ? Flexible(child: _vacancyListBuilder())
+              : Flexible(child: _respondsListBuilder()),
         ],
       ),
       // body: _vacancyListBuilder(),
@@ -145,13 +148,36 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
     return ListView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
-      controller: _scrollController,
+      controller: _scrollControllerVacancies,
       itemCount: vacancies.length + 1,
       itemBuilder: (context, index) {
         if (index == vacancies.length) {
           return isLoading ? CircularProgressIndicator() : Container();
         }
         final vacancy = vacancies[index];
+        var imageBytes = base64Decode(vacancy.picture);
+        return VacancyWidget(vacancy: vacancy, imageBytes: imageBytes);
+      },
+    );
+  }
+
+  ListView _respondsListBuilder() {
+    List<Vacancy> vacanciesWithResposes = [];
+    for (var i = 0; i < vacancies.length; i++) {
+      if (vacancies[i].hasResponses) {
+        vacanciesWithResposes.add(vacancies[i]);
+      }
+    }
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      controller: _scrollControllerResponse,
+      itemCount: vacanciesWithResposes.length + 1,
+      itemBuilder: (context, index) {
+        if (index == vacanciesWithResposes.length) {
+          return isLoading ? CircularProgressIndicator() : Container();
+        }
+        final vacancy = vacanciesWithResposes[index];
         var imageBytes = base64Decode(vacancy.picture);
         return VacancyWidget(vacancy: vacancy, imageBytes: imageBytes);
       },

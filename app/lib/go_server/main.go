@@ -96,6 +96,7 @@ type Vacancy struct {
 	Requirements string `json:"requirements"`
 	Logo         string `json:"logo"`
 	Cost         int    `json:"cost"`
+	HasResponses bool   `json:"has_responses"`
 }
 
 func main() {
@@ -107,10 +108,10 @@ func main() {
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/vacancies", func(w http.ResponseWriter, r *http.Request) {
 		vacancies := []Vacancy{
-			{ID: 1, Title: "Golang разработчик", Company: "Ozon", Date: "15 мая", Requirements: "Опыт с Go", Logo: "images/ozon.png", Cost: 100000},
-			{ID: 2, Title: "Курьер", Company: "Ozon", Date: "5 апреля", Requirements: "Без опыта", Logo: "images/ozon.png", Cost: 30000},
-			{ID: 3, Title: "Аналитик данных", Company: "Yandex", Date: "24 апреля", Requirements: "Опыт в аналитике", Logo: "images/yandex.png", Cost: 80000},
-			{ID: 4, Title: "Java разработчик", Company: "Yandex", Date: "7 июня", Requirements: "Опыт в Java", Logo: "images/yandex.png", Cost: 8000},
+			{ID: 1, Title: "Golang разработчик", Company: "Ozon", Date: "15 мая", Requirements: "Опыт с Go", Logo: "images/ozon.png", Cost: 100000, HasResponses: true},
+			{ID: 2, Title: "Курьер", Company: "Ozon", Date: "5 апреля", Requirements: "Без опыта", Logo: "images/ozon.png", Cost: 30000, HasResponses: false},
+			{ID: 3, Title: "Аналитик данных", Company: "Yandex", Date: "24 апреля", Requirements: "Опыт в аналитике", Logo: "images/yandex.png", Cost: 80000, HasResponses: false},
+			{ID: 4, Title: "Java разработчик", Company: "Yandex", Date: "7 июня", Requirements: "Опыт в Java", Logo: "images/yandex.png", Cost: 8000, HasResponses: false},
 			// {ID: 5, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
 			// {ID: 6, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
 			// {ID: 7, Title: "Product Manager", Requirements: "Experience in marketing", Logo: "https://example.com/logo.png", Cost: 8000},
