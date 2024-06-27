@@ -1,57 +1,88 @@
 import 'package:flutter/material.dart';
 
-class OnboardingPage extends StatelessWidget {
-  final String title;
-  final String description;
-  final String button;
-
-  const OnboardingPage({
-    required this.title,
-    required this.description,
-    required this.button,
-    super.key,
-  });
+class MegaPhone extends StatelessWidget {
+  const MegaPhone({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        if (description != '') const SizedBox(height: 16),
-        if (description != '')
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        if (button != '') const SizedBox(height: 16),
-        if (button != '')
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil('/authorization', (route) => false);
-            },
-            child: Text(
-              button,
-              style: Theme.of(context).textTheme.bodySmall,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Исследуйте новый канал привлечения сотрудников',
+                    style: Theme.of(context).textTheme.bodyLarge),
+                const SizedBox(height: 20),
+                Text('Размещайте вакансию или привлекайте кандидатов',
+                    style: Theme.of(context).textTheme.bodySmall),
+              ],
             ),
-          )
+          ),
+        )
       ],
     );
   }
 }
 
-class OboardContent {
-  final String title;
-  final String description;
-  final String button;
-  OboardContent({
-    required this.title,
-    required this.description,
-    required this.button,
-  });
+class Settings extends StatelessWidget {
+  const Settings({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Рекомендации по кандидатам и флоу',
+                    style: Theme.of(context).textTheme.bodyLarge),
+                const SizedBox(height: 20),
+                Text('Ведения теперь в одном месте',
+                    style: Theme.of(context).textTheme.bodySmall),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class Contract extends StatelessWidget {
+  const Contract({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Вакансия', style: Theme.of(context).textTheme.bodyLarge),
+                Text('Рекомендация',
+                    style: Theme.of(context).textTheme.bodyLarge),
+                Text('Трудоустройство',
+                    style: Theme.of(context).textTheme.bodyLarge),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

@@ -4,6 +4,7 @@ import 'package:app/features/login/view.dart';
 import 'package:app/features/onboarding/view.dart';
 import 'package:app/features/onboarding/widgets/onboarding_page.dart';
 import 'package:app/registration/registration.dart';
+import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -12,10 +13,15 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FMT',
+      title: 'Molva',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: customTheme,
+      ),
       routes: {
         '/': (context) => OnboardingScreen(),
-        '/login':(context) => LoginScreen(),
+        '/toregistration': (context) => ToRegistration(),
+        '/login': (context) => LoginScreen(),
         '/authorization': (context) => AuthorizationScreen(),
         '/home': (context) => HomeScreen(),
         '/registration': (context) => RegistrationPage(),
