@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const blue1 = Color(0xFF0582EE);
 const blue2 = Color(0xFF37ADF5);
 const background = Color(0xFFF5F5F7);
+const darkgray = Color(0XFF888888);
 const gradient = RadialGradient(
   center: Alignment.center,
   colors: [
@@ -35,6 +36,22 @@ const customTheme = TextTheme(
     height: 38.4 / 32,
   ),
 );
+
+class CustomPageTransitionBuilder extends PageTransitionsBuilder {
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return FadeTransition(
+      opacity: animation,
+      child: child,
+    );
+  }
+}
 
 class Button extends MaterialButton {
   final RadialGradient? gradient;
