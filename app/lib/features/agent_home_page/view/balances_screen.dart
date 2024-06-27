@@ -97,8 +97,8 @@ class _BalancesScreenState extends State<BalancesScreen> {
                     ),
               ),
               const SizedBox(height: 20),
-              transactions.isEmpty ? _topButtons() : Container(),
-              transactions.isEmpty
+              transactions.isNotEmpty ? _topButtons() : Container(),
+              transactions.isNotEmpty
                   ? const SizedBox(
                       height: 10,
                     )
