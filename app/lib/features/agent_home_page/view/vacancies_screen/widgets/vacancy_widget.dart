@@ -11,11 +11,11 @@ class VacancyWidget extends StatelessWidget {
   const VacancyWidget({
     super.key,
     required this.vacancy,
-    required this.imageBytes,
+    this.imageBytes,
   });
 
   final Vacancy vacancy;
-  final Uint8List imageBytes;
+  final Uint8List? imageBytes;
   static const double _padding = 15.0;
 
   @override
@@ -47,7 +47,7 @@ class VacancyWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: SizedBox(
-                    height: 165.0,
+                    height: 175.0,
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: _padding,
@@ -63,6 +63,9 @@ class VacancyWidget extends StatelessWidget {
                             VacancyCost(vacancy: vacancy),
                             const Spacer(),
                             VacancyDateAndCopy(vacancy: vacancy),
+                            const SizedBox(
+                              height: 15,
+                            ),
                           ]),
                     ),
                   ),
@@ -71,7 +74,6 @@ class VacancyWidget extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 10.0),
         ],
       ),
     );
