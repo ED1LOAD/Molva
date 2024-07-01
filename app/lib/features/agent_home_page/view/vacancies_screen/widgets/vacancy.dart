@@ -31,4 +31,17 @@ class Vacancy {
       hasResponses: json['has_responses'] as bool,
     );
   }
+
+  factory Vacancy.empty() {
+    return Vacancy(
+      id: 0,
+      title: '',
+      company: '',
+      date: '',
+      description: '',
+      picture: '',
+      cost: 0,
+      hasResponses: false,
+    );
+  }
 }

@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 class VacancyHeading extends StatelessWidget {
   const VacancyHeading({
     super.key,
-    required this.imageBytes,
+    this.imageBytes,
     required this.vacancy,
   });
 
-  final Uint8List imageBytes;
+  final Uint8List? imageBytes;
   final Vacancy vacancy;
 
   @override
@@ -20,7 +20,8 @@ class VacancyHeading extends StatelessWidget {
         left: 5,
         right: 0,
       ),
-      trailing: Image.memory(imageBytes),
+      trailing:
+          imageBytes == null ? SizedBox(height: 24) : Image.memory(imageBytes!),
       title: Padding(
           padding: const EdgeInsets.only(bottom: 2.0),
           child: Text(

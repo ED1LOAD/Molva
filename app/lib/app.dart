@@ -1,5 +1,6 @@
 import 'package:app/features/agent_home_page/view/home_screen.dart';
 import 'package:app/features/authorization/view.dart';
+import 'package:app/features/distributor_home_page/widget/home_screen_widget.dart';
 import 'package:app/features/login/view.dart';
 import 'package:app/features/onboarding/view.dart';
 import 'package:app/features/onboarding/widgets/onboarding_page.dart';
@@ -25,6 +26,7 @@ class App extends StatelessWidget {
         '/authorization': (context) => AuthorizationScreen(),
         '/home': (context) => HomeScreen(),
         '/registration': (context) => RegistrationPage(),
+        '/distributorhome': (context) => HomeScreenDistributor(),
       },
       initialRoute: '/',
     );

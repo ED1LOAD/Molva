@@ -6,11 +6,11 @@ import 'package:flutter/services.dart';
 
 class VacancyPage extends StatefulWidget {
   final Vacancy vacancy;
-  final Uint8List imageBytes;
+  final Uint8List? imageBytes;
   const VacancyPage({
     super.key,
     required this.vacancy,
-    required this.imageBytes,
+    this.imageBytes,
   });
 
   @override
