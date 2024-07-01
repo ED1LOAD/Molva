@@ -303,7 +303,7 @@ class _VacancyPageState extends State<VacancyPage> {
                   },
                 );
               },
-              style: TextButton.styleFrom(
+              style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
