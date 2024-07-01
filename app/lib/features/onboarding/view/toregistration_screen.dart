@@ -1,9 +1,5 @@
-import 'dart:html';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app/theme.dart';
-import 'package:flutter/widgets.dart';
 
 class ToRegistration extends StatefulWidget {
   const ToRegistration({super.key});

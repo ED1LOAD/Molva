@@ -16,7 +16,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FMT',
+      title: 'Molva',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: customTheme,
       ),
