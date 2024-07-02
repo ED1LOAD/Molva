@@ -68,7 +68,7 @@ class VacancyDateAndCopy extends StatelessWidget {
                   linkGenerator.CopyToClipboard(context);
                 },
                 color: Colors.white,
-                icon: const Icon(Icons.copy),
+                icon: Center(child: const Icon(Icons.copy)),
               ),
             ),
           ),
