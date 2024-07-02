@@ -40,7 +40,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             width: double.infinity,
             constraints: BoxConstraints(maxWidth: 360),
             padding: EdgeInsets.fromLTRB(15, 25, 15, 25),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
@@ -56,7 +56,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Регистрация',
                   style: TextStyle(
                     fontSize: 24,
@@ -64,17 +64,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                 ),
                 SizedBox(height: 10),
-                Text(
+                const Text(
                   'Я представляю кадровое агентство и ищу кандидатов в другие компании',
                   style: TextStyle(fontSize: 16),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
                       _buildFormField('ФИО'),
-                      SizedBox(height: 10),
+                       SizedBox(height: 10),
                       _buildFormField('Эл. почта'),
                       SizedBox(height: 10),
                       _buildFormField('Телефон'),
@@ -96,7 +96,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 Row(
                   children: [
                     _buildCheckbox(),
-                    Expanded(
+                    const Expanded(
                       child: Text(
                         'Я прочитал и согласен с условиями Пользовательского соглашения',
                         style: TextStyle(fontSize: 14),
@@ -111,7 +111,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     height: 36,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [Color(0xFF07B7F8), Color(0xFF0582EE)],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -123,17 +123,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           // Handle form submission
                         }
                       },
-                      child: Text(
-                        'Регистрация',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 9, horizontal: 8),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text(
+                        'Регистрация',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -151,7 +151,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Container(
       width: double.infinity,
       height: 40,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color(0xFFF5F5F7),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(11),
@@ -159,9 +159,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
       child: TextFormField(
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 11, horizontal: 12),
+          contentPadding: const EdgeInsets.symmetric(vertical: 11, horizontal: 12),
           labelText: labelText,
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(11),
@@ -183,14 +183,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
         },
         child: Container(
           height: 44,
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
           decoration: BoxDecoration(
             color: Color(0xFFF5F5F7),
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(11),
             ),
             border: Border.all(
-              color: isSelected ? Color(0xFF0582EE) : Colors.transparent,
+              color: isSelected ? const Color(0xFF0582EE) : Colors.transparent,
             ),
           ),
           child: Row(
@@ -207,7 +207,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   fontFamily: 'Graphik LCG',
                   fontWeight: FontWeight.w400,
@@ -242,7 +242,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
         ),
         child: isChecked
-            ? Align(
+            ? const Align(
                 alignment: Alignment.center,
                 child: Icon(
                   Icons.check,
