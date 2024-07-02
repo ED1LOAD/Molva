@@ -3,7 +3,8 @@ import 'package:app/features/authorization/view.dart';
 import 'package:app/features/login/view.dart';
 import 'package:app/features/onboarding/view.dart';
 import 'package:app/features/onboarding/widgets/onboarding_page.dart';
-import 'package:app/registration/registration.dart';
+import 'package:app/registration/registration_agent.dart';
+import 'package:app/registration/registration_distributor.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class App extends StatelessWidget {
       ),
       routes: {
         '/': (context) => OnboardingScreen(),
-        '/toregistration': (context) => ToRegistration(),
+        '/toregistration': (context) => RegistrationPageAgent(),
         '/login': (context) => LoginScreen(),
         '/authorization': (context) => AuthorizationScreen(),
         '/home': (context) => HomeScreen(),
