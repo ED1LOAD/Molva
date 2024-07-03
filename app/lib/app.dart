@@ -1,5 +1,6 @@
 import 'package:app/features/agent_home_page/view/home_screen.dart';
 import 'package:app/features/authorization/view.dart';
+import 'package:app/features/distributor%20pesonal%20account/distributor_home_page.dart';
 import 'package:app/features/distributor%20pesonal%20account/main_page.dart';
 import 'package:app/features/distributor%20pesonal%20account/requirments.dart';
 import 'package:app/features/distributor%20pesonal%20account/settings_page.dart';
@@ -24,13 +25,16 @@ class App extends StatelessWidget {
       ),
       routes: {
         '/': (context) => OnboardingScreen(),
-        '/toregistration': (context) => RegistrationPageAgent(),
+        '/toregistration': (context) => ToRegistration(),
         '/login': (context) => LoginScreen(),
         '/authorization': (context) => AuthorizationScreen(),
         '/home': (context) => HomeScreen(),
+        '/homedist': (context) => HomeScreenDist(),
         '/company': (context) => CompanyManagementPage(),
         '/req': (context) => CompanyRequirements(),
-        '/homepage': (context) =>  DistHomePage(),
+        '/homepage': (context) => DistHomePage(),
+        '/registration_agent': (context) => RegistrationPage(),
+        '/registration_distributor': (context) => RegistrationPageAgent(),
       },
       initialRoute: '/',
     );

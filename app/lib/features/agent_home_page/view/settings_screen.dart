@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key, required this.title}) : super(key: key); 
+  const SettingsScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
   @override
@@ -10,10 +10,10 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title + "(в разработке)"),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -22,7 +22,7 @@ Widget build(BuildContext context) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 20.0),
-               Text(
+              Text(
                 'Чтобы пользоваться приложением\nзавершите регистрацию',
                 style: TextStyle(
                   fontSize: 16.0,

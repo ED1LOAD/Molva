@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class SaveButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  
+
   const SaveButton({
     Key? key,
     required this.text,
@@ -25,8 +25,8 @@ class SaveButton extends StatelessWidget {
           child: Text(
             text,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
-            ),
+                  color: Colors.white,
+                ),
           ),
         ),
       ),
@@ -37,7 +37,7 @@ class SaveButton extends StatelessWidget {
 class BankButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  
+
   const BankButton({
     Key? key,
     required this.text,
@@ -58,14 +58,15 @@ class BankButton extends StatelessWidget {
           child: Text(
             text,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
-            ),
+                  color: Colors.white,
+                ),
           ),
         ),
       ),
     );
   }
 }
+
 class CompanyRequirements extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
@@ -153,8 +154,8 @@ class CompanyRequirements extends StatelessWidget {
             SizedBox(height: 10),
             TextField(
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.w400,
-                      ),
+                    fontWeight: FontWeight.w400,
+                  ),
               decoration: InputDecoration(
                 hintText: 'Юр. адрес',
                 hintStyle: TextStyle(
@@ -184,28 +185,6 @@ class CompanyRequirements extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label: 'Балансы',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: 'Вакансии',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Управление',
-          ),
-        ],
-        currentIndex: 2,
-        onTap: (index) {
-          // Реализуйте логику навигации здесь
-        },
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
       ),
     );
   }

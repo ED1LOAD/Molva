@@ -42,7 +42,15 @@ class _ToRegistrationState extends State<ToRegistration> {
 
   MaterialButton button(BuildContext context) {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        if (_currentOption == _agent) {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/registration_agent', (route) => false);
+        } else if (_currentOption == _company) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              '/registration_distributor', (route) => false);
+        }
+      },
       child: Padding(
         padding: const EdgeInsets.only(left: 0, right: 0),
         child: Container(
