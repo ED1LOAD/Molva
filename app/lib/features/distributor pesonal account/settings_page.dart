@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RequirButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  
+
   const RequirButton({
     Key? key,
     required this.text,
@@ -17,25 +17,26 @@ class RequirButton extends StatelessWidget {
       child: Container(
         height: 36,
         decoration: BoxDecoration(
-          color:Color(0xFF0C0C0C) ,
+          color: Color(0xFF0C0C0C),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
           child: Text(
             text,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
-            ),
+                  color: Colors.white,
+                ),
           ),
         ),
       ),
     );
   }
 }
+
 class SupportButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  
+
   const SupportButton({
     Key? key,
     required this.text,
@@ -49,21 +50,22 @@ class SupportButton extends StatelessWidget {
       child: Container(
         height: 36,
         decoration: BoxDecoration(
-          color:Color(0xFF888888) ,
+          color: Color(0xFF888888),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
           child: Text(
             text,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
-            ),
+                  color: Colors.white,
+                ),
           ),
         ),
       ),
     );
   }
 }
+
 class CompanyManagementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -108,8 +110,8 @@ class CompanyManagementPage extends StatelessWidget {
                 fontFamily: 'Graphik LCG',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                height: 1.2, // line-height: 16.8px corresponds to a multiplier of 1.2 for a font size of 14px
-               
+                height:
+                    1.2, // line-height: 16.8px corresponds to a multiplier of 1.2 for a font size of 14px
               ),
               decoration: InputDecoration(
                 hintText: 'mail@mail.ru',
@@ -119,7 +121,8 @@ class CompanyManagementPage extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF0C0C0C),
                 ),
-                contentPadding: EdgeInsets.symmetric(vertical: 11, horizontal: 12),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 11, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11),
                 ),
@@ -161,7 +164,8 @@ class CompanyManagementPage extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF0C0C0C),
                 ),
-                contentPadding: EdgeInsets.symmetric(vertical: 11, horizontal: 12),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 11, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11),
                 ),
@@ -183,7 +187,8 @@ class CompanyManagementPage extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF0C0C0C),
                 ),
-                contentPadding: EdgeInsets.symmetric(vertical: 11, horizontal: 12),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 11, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11),
                 ),
@@ -205,40 +210,17 @@ class CompanyManagementPage extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF0C0C0C),
                 ),
-                contentPadding: EdgeInsets.symmetric(vertical: 11, horizontal: 12),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 11, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11),
                 ),
               ),
             ),
             SizedBox(height: 20),
-           SupportButton(text: 'Поддержка', onPressed:(){}),
+            SupportButton(text: 'Поддержка', onPressed: () {}),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label: 'Балансы',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: 'Вакансии',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Управление',
-          ),
-        ],
-        currentIndex: 2, // Установите текущее активное окно на 'Управление'
-        onTap: (index) {
-          // Реализуйте логику навигации здесь
-
-        },
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-      
       ),
     );
   }

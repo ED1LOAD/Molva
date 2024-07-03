@@ -100,6 +100,13 @@ type Vacancy struct {
 }
 
 func main() {
+	// res, _ := encodeImage("images/ozon.png")
+	// print(res)
+	// print("\n")
+	// print("\n")
+	// res, _ = encodeImage("images/yandex.png")
+	// print(res)
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(201)
 		fmt.Fprintln(w, "Hello, world!")

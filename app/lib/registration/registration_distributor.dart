@@ -13,14 +13,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            // Handle back button press
-          },
-        ),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 206.0),
         child: Center(
@@ -98,7 +90,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     width: double.infinity,
                     height: 36,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20), // Полностью округлые границы
+                      borderRadius: BorderRadius.circular(
+                          20), // Полностью округлые границы
                       gradient: LinearGradient(
                         colors: [Color(0xFF07B7F8), Color(0xFF0582EE)],
                         begin: Alignment.topCenter,
@@ -108,7 +101,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     child: TextButton(
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
-                          // Handle form submission
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/home', (route) => false);
                         }
                       },
                       child: Text(
@@ -119,9 +113,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         ),
                       ),
                       style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 9, horizontal: 8),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 9, horizontal: 8),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20), // Полностью округлые границы
+                          borderRadius: BorderRadius.circular(
+                              20), // Полностью округлые границы
                         ),
                       ),
                     ),
@@ -151,10 +147,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           hintStyle: TextStyle(fontSize: 12), // Уменьшенный шрифт для hint text
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(20), // Полностью округлые границы
+            borderRadius:
+                BorderRadius.circular(20), // Полностью округлые границы
           ),
         ),
-        style: TextStyle(fontSize: 12), // Уменьшенный шрифт для вводимого текста
+        style:
+            TextStyle(fontSize: 12), // Уменьшенный шрифт для вводимого текста
         obscureText: obscureText,
       ),
     );
@@ -173,7 +171,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 11),
           decoration: BoxDecoration(
             color: Color(0xFFF5F5F7),
-            borderRadius: BorderRadius.circular(20), // Полностью округлые границы
+            borderRadius:
+                BorderRadius.circular(20), // Полностью округлые границы
             border: Border.all(
               color: isSelected ? Color(0xFF0582EE) : Colors.transparent,
             ),
