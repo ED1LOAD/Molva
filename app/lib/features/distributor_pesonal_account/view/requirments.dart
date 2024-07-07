@@ -107,7 +107,7 @@ class CompanyRequirements extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            
             TextField(
               style: TextStyle(
                 fontFamily: 'Graphik LCG',
