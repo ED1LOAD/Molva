@@ -3,6 +3,7 @@ import 'package:app/features/agent_home_page/view/home_screen.dart';
 import 'package:app/features/agent_home_page/view/profile_screen.dart';
 import 'package:app/features/agent_home_page/view/settings_screen.dart';
 import 'package:app/features/agent_home_page/view/vacancies_screen/view.dart';
+import 'package:app/features/distributor_home_page/view/balance_screen.dart';
 import 'package:app/features/distributor_pesonal_account/view/settings_page.dart';
 import 'package:app/features/distributor_home_page/view/vacancies_screen.dart';
 import 'package:app/theme.dart';
@@ -19,7 +20,7 @@ class HomeScreenState extends State<HomeScreenDist> {
   int _selectedIndex = 1;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    BalancesScreen(), // Экран балансов
+    BalancesScreenDistrtibutor(), // Экран балансов
     VacanciesScreenDistributor(), // Экран вакансий
     CompanyManagementPage(), // Экран настроек
   ];

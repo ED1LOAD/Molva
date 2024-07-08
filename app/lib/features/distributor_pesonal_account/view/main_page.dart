@@ -1,6 +1,8 @@
 import 'package:app/features/agent_home_page/view/balances_screen.dart';
+import 'package:app/features/distributor_home_page/view/vacancies_screen.dart';
 import 'package:app/features/distributor_pesonal_account/employees/employees.dart';
 import 'package:app/features/distributor_home_page/widget/home_screen_widget.dart';
+import 'package:app/features/distributor_pesonal_account/view/settings_page.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,19 @@ class DistHomePage extends StatefulWidget {
 }
 
 class _DistHomePageState extends State<DistHomePage> {
+  // int _selectedIndex = 1;
+  // static final List<Widget> _widgetOptions = <Widget>[
+  //   BalancesScreen(), // Экран балансов
+  //   VacanciesScreenDistributor(), // Экран вакансий
+  //   CompanyManagementPage(), // Экран настроек
+  // ];
+
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,28 +35,30 @@ class _DistHomePageState extends State<DistHomePage> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Column(children: [ Text(
-          'Приветствуем,',
-          style: TextStyle(
+        title: const Column(
+          children: [
+            Text(
+              'Приветствуем,',
+              style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                   fontFamily: 'Graphik LCG',
-                  height: 1.2
-                ),
-          textAlign: TextAlign.left,
+                  height: 1.2),
+              textAlign: TextAlign.left,
+            ),
+            Text(
+              'Иван Иванович',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontFamily: 'Graphik LCG',
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ],
         ),
-        Text(
-          'Иван Иванович',
-          style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontFamily: 'Graphik LCG',
-                ),
-          textAlign: TextAlign.left,
-        ),
-        ],),
       ),
       body: const Padding(
         padding: EdgeInsets.only(
@@ -51,9 +68,9 @@ class _DistHomePageState extends State<DistHomePage> {
         ),
         child: Column(
           children: [
-              BalanceCard(balance: '0'),
-              SizedBox(height: 20),
-              OptionsGrid(),
+            BalanceCard(balance: '0'),
+            SizedBox(height: 20),
+            OptionsGrid(),
           ],
         ),
       ),
@@ -84,7 +101,7 @@ class BalanceCard extends BalanceBlock {
   const BalanceCard({required super.balance});
 
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Container(
       height: 100,
       width: double.infinity,
@@ -116,7 +133,7 @@ class BalanceCard extends BalanceBlock {
                     fontSize: 26,
                   ),
             ),
-           /* IconButton(onPressed: (){
+            /* IconButton(onPressed: (){
               //Navigator.push(context,MaterialPageRoute(builder: (context) => BalancesScreen()));
 
             }, icon:const Image(image:AssetImage('app/assets/balances/arrow.png')),
@@ -151,7 +168,8 @@ class OptionsGrid extends StatelessWidget {
             icon: Icons.people,
             label: 'Сотрудники',
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeWidget()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => EmployeeWidget()));
             },
           ),
           OptionCard(
@@ -170,7 +188,6 @@ class OptionsGrid extends StatelessWidget {
             },
           ),
         ],
-        
       ),
     );
   }
@@ -207,9 +224,11 @@ class OptionCard extends StatelessWidget {
               children: [
                 Icon(icon, size: 30),
                 SizedBox(width: 10),
-                Text(
-                  label,
-                  style: TextStyle(fontSize: 16),
+                Flexible(
+                  child: Text(
+                    label,
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
               ],
             ),

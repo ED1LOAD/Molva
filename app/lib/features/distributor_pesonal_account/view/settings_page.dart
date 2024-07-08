@@ -1,3 +1,4 @@
+import 'package:app/features/distributor_pesonal_account/view/requirments.dart';
 import 'package:flutter/material.dart';
 
 class RequirButton extends StatelessWidget {
@@ -217,6 +218,16 @@ class CompanyManagementPage extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 20),
+            SupportButton(
+                text: 'Реквизиты',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CompanyRequirements(),
+                      ));
+                }),
             SizedBox(height: 20),
             SupportButton(text: 'Поддержка', onPressed: () {}),
           ],

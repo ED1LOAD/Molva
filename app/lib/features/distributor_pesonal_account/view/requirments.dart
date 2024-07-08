@@ -1,3 +1,4 @@
+import 'package:app/features/distributor_pesonal_account/view/main_page.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -107,7 +108,6 @@ class CompanyRequirements extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            
             TextField(
               style: TextStyle(
                 fontFamily: 'Graphik LCG',
@@ -177,7 +177,12 @@ class CompanyRequirements extends StatelessWidget {
             ),
             const Spacer(),
             SaveButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DistHomePage()),
+                );
+              },
               text: 'Сохранить',
             ),
             const SizedBox(
