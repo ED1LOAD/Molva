@@ -3,6 +3,7 @@ import 'package:app/features/authorization/view.dart';
 import 'package:app/features/distributor_pesonal_account/view/company_data.dart';
 import 'package:app/features/distributor_pesonal_account/view/distributor_home_page.dart';
 import 'package:app/features/distributor_pesonal_account/view/main_page.dart';
+import 'package:app/features/distributor_pesonal_account/view/main_page_draft.dart';
 import 'package:app/features/distributor_pesonal_account/view/requirments.dart';
 import 'package:app/features/distributor_pesonal_account/view/settings_page.dart';
 import 'package:app/features/login/view.dart';

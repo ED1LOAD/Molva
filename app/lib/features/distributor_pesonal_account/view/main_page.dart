@@ -170,6 +170,7 @@ class OptionsGrid extends StatelessWidget {
             },
           ),
         ],
+        
       ),
     );
   }
@@ -193,6 +194,8 @@ class OptionCard extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
+        height: 10,
+        width: 10,
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
