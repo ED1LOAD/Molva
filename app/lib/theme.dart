@@ -4,14 +4,10 @@ const blue1 = Color(0xFF0582EE);
 const blue2 = Color(0xFF37ADF5);
 const background = Color(0xFFF5F5F7);
 const darkgray = Color(0XFF888888);
-const gradient = RadialGradient(
-  center: Alignment.center,
-  colors: [
-    const Color(0xFF07B7F8), // #07B7F8
-    const Color(0xFF0582EE), // #0582EE
-  ],
-  stops: const [0.0, 1.0], // Start and end position for color transition
-  radius: 3.0,
+const gradient = LinearGradient(
+  colors: [Color(0xFF07B7F8), Color(0xFF0582EE)],
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
 );
 
 const customTheme = TextTheme(

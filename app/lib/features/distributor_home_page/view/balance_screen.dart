@@ -1,4 +1,5 @@
 import 'package:app/theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Transaction {
@@ -34,10 +35,17 @@ class _BalancesScreenDistrtibutorState
   bool _isAll = true;
   bool _isAdd = false;
   bool _isMinus = false;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    final isMobileLayout = !kIsWeb || MediaQuery.of(context).size.width < 800;
+    return isMobileLayout
+        ? _buildMobileLayout(context)
+        : _buildWebLayout(context);
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
@@ -119,6 +127,97 @@ class _BalancesScreenDistrtibutorState
                 height: 25,
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWebLayout(BuildContext context) {
+    return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
+        backgroundColor: background,
+        centerTitle: true,
+        title: Text(
+          'Балансы',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1024),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+              top: 25,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const BalanceBlock(balance: "39000"),
+                const SizedBox(height: 20),
+                Text(
+                  "Лента операций",
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                ),
+                const SizedBox(height: 20),
+                transactions.isNotEmpty ? _topButtons() : Container(),
+                transactions.isNotEmpty
+                    ? const SizedBox(
+                        height: 10,
+                      )
+                    : Container(),
+                transactions.isEmpty ? const NonFoundImage() : Container(),
+                transactions.isNotEmpty
+                    ? Flexible(
+                        child: _checksBuilder(),
+                      )
+                    : Container(),
+                const Spacer(),
+                WithdrawalButton(
+                  text: "Счета",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Checks(),
+                      ),
+                    );
+                  },
+                  color: darkgray,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                WithdrawalButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WithdrawScreen(),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -596,6 +695,13 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobileLayout = !kIsWeb || MediaQuery.of(context).size.width < 800;
+    return isMobileLayout
+        ? _buildMobileLayout(context)
+        : _buildWebLayout(context);
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
         backgroundColor: background,
         appBar: AppBar(
@@ -672,6 +778,100 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
           ),
         ));
   }
+
+  Widget _buildWebLayout(BuildContext context) {
+    return Scaffold(
+        backgroundColor: background,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(56.0),
+          child: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 1024),
+              child: AppBar(
+                backgroundColor: background,
+                centerTitle: true,
+                title: Text(
+                  'Вывод средств',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        body: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 1024),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.grey.shade300),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade200,
+                  blurRadius: 20.0,
+                  spreadRadius: 10.0,
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 15,
+                right: 15,
+                top: 25,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const BalanceBlock(
+                    balance: "39000",
+                    title: "Доступно к выводу:",
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Введите сумму к выводу:",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    onChanged: (value) {
+                      sum = value;
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Сумма',
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      fillColor: background,
+                      filled: true,
+                    ),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.w400,
+                        ),
+                  ),
+                  const Spacer(),
+                  WithdrawalButton(
+                    text: "Подтвердить сумму",
+                    onPressed: () {},
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
 }
 
 class Checks extends StatefulWidget {
@@ -684,6 +884,13 @@ class Checks extends StatefulWidget {
 class _ChecksState extends State<Checks> {
   @override
   Widget build(BuildContext context) {
+    final isMobileLayout = !kIsWeb || MediaQuery.of(context).size.width < 800;
+    return isMobileLayout
+        ? _buildMobileLayout(context)
+        : _buildWebLayout(context);
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
         backgroundColor: background,
         appBar: AppBar(
@@ -706,8 +913,8 @@ class _ChecksState extends State<Checks> {
               topRight: Radius.circular(15),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(
+          child: const Padding(
+            padding: EdgeInsets.only(
               left: 15,
               right: 15,
               top: 25,
@@ -722,7 +929,7 @@ class _ChecksState extends State<Checks> {
                   sum: 10000,
                   isPayed: false,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 10,
                 ),
                 Check(
@@ -737,6 +944,77 @@ class _ChecksState extends State<Checks> {
           ),
         ));
   }
+
+  Widget _buildWebLayout(BuildContext context) {
+    return Scaffold(
+        backgroundColor: background,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(56.0),
+          child: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 1024),
+              child: AppBar(
+                backgroundColor: background,
+                centerTitle: true,
+                title: Text(
+                  'Счета',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        body: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 1024),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.grey.shade300),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade200,
+                  blurRadius: 20.0,
+                  spreadRadius: 10.0,
+                ),
+              ],
+            ),
+            child: const Padding(
+              padding: EdgeInsets.only(
+                left: 15,
+                right: 15,
+                top: 25,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Check(
+                    title: "Токарь",
+                    description: "Описание",
+                    date: "12.12.2022",
+                    sum: 10000,
+                    isPayed: false,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Check(
+                    title: "Менеджер по развитию",
+                    description: "Описание",
+                    date: "12.12.2022",
+                    sum: 10000,
+                    isPayed: true,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
 }
 
 class Check extends StatelessWidget {
@@ -745,6 +1023,7 @@ class Check extends StatelessWidget {
   final String date;
   final int sum;
   final bool isPayed;
+
   const Check({
     super.key,
     required this.title,
@@ -757,31 +1036,85 @@ class Check extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 76,
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: background,
+        color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(11),
       ),
-      child: ListTile(
-        title: Text(
-          "Публикация вакансии",
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Публикация вакансии:",
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
               ),
-        ),
-        subtitle: Text(
-          title,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 16,
+              const SizedBox(height: 4),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-        ),
-        trailing: Text(
-          "$sum ₽",
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 16,
+              const SizedBox(height: 4),
+              Text(
+                date,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
               ),
-        ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 2,
+                    horizontal: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isPayed
+                        ? const Color(0xff61E36E)
+                        : const Color(0xffFBC756),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Text(
+                    isPayed ? "оплачено" : "ожидает оплаты",
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(
+                    "$sum ₽",
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

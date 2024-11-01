@@ -34,6 +34,7 @@ class RequirmentButton extends StatelessWidget {
     );
   }
 }
+
 class EditButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
@@ -66,6 +67,7 @@ class EditButton extends StatelessWidget {
     );
   }
 }
+
 class CompanyData extends StatefulWidget {
   @override
   State<CompanyData> createState() => _CompanyDataState();
@@ -75,99 +77,102 @@ class _CompanyDataState extends State<CompanyData> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
         backgroundColor: background,
-        appBar: AppBar(
-          backgroundColor: background,
-          clipBehavior: Clip.none,
-          title: Text(
-            'Уведомления',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 16.0,
-                ),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.sort),
+        clipBehavior: Clip.none,
+        title: Text(
+          'Уведомления',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 16.0,
+              ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.sort),
+          color: darkgray,
+          onPressed: () {},
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
             color: darkgray,
             onPressed: () {},
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.search),
-              color: darkgray,
-              onPressed: () {},
-            ),
-          ],
-        ),
-        body: Column(
-          children: [
-            TextField(
-              decoration: const InputDecoration(
-                hintText: 'Название Юр.Лица',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                fillColor: background,
-                filled: true,
+        ],
+      ),
+      body: Column(
+        children: [
+          TextField(
+            decoration: const InputDecoration(
+              hintText: 'Название Юр.Лица',
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
               ),
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                hintText: 'ИНН/ОГРН',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                fillColor: background,
-                filled: true,
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
               ),
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                hintText: 'Юр.Адрес',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                fillColor: background,
-                filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
+              fillColor: background,
+              filled: true,
             ),
-            SizedBox(height: 10),
-            RequirmentButton(text: 'Банковские реквезиты', onPressed: () {}),
-            Spacer(),
-            Text('После редактирования с вами свяжется поддержка для уточнения информации, после чего она будет изменена',
-            style: TextStyle(fontSize: 12, color: Colors.grey),),
-            EditButton(text: 'Редактировать' , onPressed: () {}),
-          ],
-          ),bottomNavigationBar: BottomNavigationBar(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontWeight: FontWeight.w400,
+                ),
+          ),
+          SizedBox(height: 10),
+          TextField(
+            decoration: const InputDecoration(
+              hintText: 'ИНН/ОГРН',
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              fillColor: background,
+              filled: true,
+            ),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontWeight: FontWeight.w400,
+                ),
+          ),
+          SizedBox(height: 10),
+          TextField(
+            decoration: const InputDecoration(
+              hintText: 'Юр.Адрес',
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              fillColor: background,
+              filled: true,
+            ),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontWeight: FontWeight.w400,
+                ),
+          ),
+          SizedBox(height: 10),
+          RequirmentButton(text: 'Банковские реквезиты', onPressed: () {}),
+          Spacer(),
+          Text(
+            'После редактирования с вами свяжется поддержка для уточнения информации, после чего она будет изменена',
+            style: TextStyle(fontSize: 12, color: Colors.grey),
+          ),
+          EditButton(text: 'Редактировать', onPressed: () {}),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white, // Цвет фона нижнего меню
         selectedItemColor: blue1, // Цвет выбранного элемента
         unselectedItemColor: darkgray, // Цвет не выбранных элементов
@@ -186,8 +191,7 @@ class _CompanyDataState extends State<CompanyData> {
           ),
         ],
       ),
-        );
-        
+    );
   }
 }
 

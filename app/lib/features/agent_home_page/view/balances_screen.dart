@@ -1,4 +1,5 @@
 import 'package:app/theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Transaction {
@@ -21,12 +22,10 @@ class BalancesScreen extends StatefulWidget {
   const BalancesScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _BalancesScreenState createState() => _BalancesScreenState();
 }
 
 class _BalancesScreenState extends State<BalancesScreen> {
-  // Пример списка операций (можно заменить на реальные данные)
   List<Transaction> transactions = [
     Transaction(
       description: 'Пополнение',
@@ -54,10 +53,16 @@ class _BalancesScreenState extends State<BalancesScreen> {
   bool _isAll = true;
   bool _isAdd = false;
   bool _isMinus = false;
-  ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    final isMobileLayout = !kIsWeb || MediaQuery.of(context).size.width < 800;
+    return isMobileLayout
+        ? _buildMobileLayout(context)
+        : _buildWebLayout(context);
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
@@ -72,70 +77,89 @@ class _BalancesScreenState extends State<BalancesScreen> {
               ),
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 15,
-            right: 15,
-            top: 25,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const BalanceBlock(balance: "39000"),
-              const SizedBox(height: 20),
-              Text(
-                "Лента операций",
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+      body: _buildContent(context),
+    );
+  }
+
+  Widget _buildWebLayout(BuildContext context) {
+    return Scaffold(
+      backgroundColor: background,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56.0),
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 1024),
+            child: AppBar(
+              backgroundColor: background,
+              centerTitle: true,
+              title: Text(
+                'Балансы',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                      fontSize: 16,
                     ),
               ),
-              const SizedBox(height: 20),
-              transactions.isNotEmpty ? _topButtons() : Container(),
-              transactions.isNotEmpty
-                  ? const SizedBox(
-                      height: 10,
-                    )
-                  : Container(),
-              transactions.isEmpty ? const NonFoundImage() : Container(),
-              transactions.isNotEmpty
-                  ? Flexible(
-                      child: _checksBuilder(),
-                    )
-                  : Container(),
-              const Spacer(),
-              WithdrawalButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WithdrawScreen(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-            ],
+            ),
           ),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1024),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          padding: const EdgeInsets.all(15),
+          child: _buildContent(context),
         ),
       ),
     );
   }
 
+  Widget _buildContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const BalanceBlock(balance: "39000"),
+        const SizedBox(height: 20),
+        Text(
+          "Лента операций",
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+        ),
+        const SizedBox(height: 20),
+        transactions.isNotEmpty ? _topButtons() : Container(),
+        transactions.isNotEmpty ? const SizedBox(height: 10) : Container(),
+        transactions.isEmpty ? const NonFoundImage() : Container(),
+        transactions.isNotEmpty
+            ? Expanded(
+                child: _checksBuilder(),
+              )
+            : Container(),
+        const Spacer(),
+        WithdrawalButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const WithdrawScreen(),
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 25),
+      ],
+    );
+  }
+
   Padding _topButtons() {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 5,
-        right: 5,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Row(
         children: [
           TopButton(
@@ -151,9 +175,7 @@ class _BalancesScreenState extends State<BalancesScreen> {
             padding: EdgeInsets.zero,
             width: 80,
           ),
-          const SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           Flexible(
             child: TopButton(
               text: "Пополнение",
@@ -168,9 +190,7 @@ class _BalancesScreenState extends State<BalancesScreen> {
               padding: EdgeInsets.zero,
             ),
           ),
-          const SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           Flexible(
             child: TopButton(
               text: "Вывод",
@@ -190,7 +210,6 @@ class _BalancesScreenState extends State<BalancesScreen> {
     );
   }
 
-  // Тут очень плохо с поиском подходящих вакансий. Нужно переписать.
   ListView _checksBuilder() {
     List<Transaction> validTransactions = transactions;
     if (_isAdd) {
@@ -201,7 +220,6 @@ class _BalancesScreenState extends State<BalancesScreen> {
           transactions.where((element) => !element.isIncome).toList();
     }
     return ListView.builder(
-      controller: _scrollController,
       itemCount: validTransactions.length,
       itemBuilder: (context, index) {
         final transaction = validTransactions[index];
@@ -213,18 +231,10 @@ class _BalancesScreenState extends State<BalancesScreen> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: ListTile(
-              onTap: () {
-                _showDialog(transaction);
-              },
+              onTap: () => _showDialog(transaction),
               leading: transaction.isIncome
-                  ? Image.asset(
-                      "assets/agent_balance/add.png",
-                      width: 24,
-                    )
-                  : Image.asset(
-                      "assets/agent_balance/minus.png",
-                      width: 24,
-                    ),
+                  ? Image.asset("assets/agent_balance/add.png", width: 24)
+                  : Image.asset("assets/agent_balance/minus.png", width: 24),
               title: Text(
                 transaction.company,
                 style: Theme.of(context).textTheme.bodyMedium,
@@ -281,12 +291,9 @@ class _BalancesScreenState extends State<BalancesScreen> {
                         const SizedBox(height: 20),
                         TextIncome(isIncome: transaction.isIncome),
                         const SizedBox(height: 10),
-                        transaction.isIncome
-                            ? TextDate(text1: "От:", text2: transaction.company)
-                            : Container(),
-                        transaction.isIncome
-                            ? const SizedBox(height: 10)
-                            : Container(),
+                        if (transaction.isIncome)
+                          TextDate(text1: "От:", text2: transaction.company),
+                        if (transaction.isIncome) const SizedBox(height: 10),
                         TextDate(
                           text1: "Дата поступления:",
                           text2: transaction.date,
@@ -340,7 +347,7 @@ class WithdrawalButton extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "Вывод средств",
+            text,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.white,
                 ),
@@ -352,32 +359,32 @@ class WithdrawalButton extends StatelessWidget {
 }
 
 class NonFoundImage extends StatelessWidget {
-  const NonFoundImage({
-    super.key,
-  });
+  const NonFoundImage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Row(
-        children: [
-          Expanded(
-            child: Image.asset(
-              "assets/agent_balance/wallet.png",
-              width: 100,
-              height: 100,
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Image.asset(
+                "assets/agent_balance/wallet.png",
+                width: 100,
+                height: 100,
+              ),
             ),
-          ),
-        ],
-      ),
-      const SizedBox(height: 20),
-      Center(
-        child: Text(
-          "Здесь будут отражены ваши балансовые операции ",
-          style: Theme.of(context).textTheme.bodyMedium,
+          ],
         ),
-      ),
-    ]);
+        const SizedBox(height: 20),
+        Center(
+          child: Text(
+            "Здесь будут отражены ваши балансовые операции",
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -401,10 +408,7 @@ class BalanceBlock extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(
-          top: 15,
-          left: 15,
-        ),
+        padding: const EdgeInsets.only(top: 15, left: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -465,9 +469,7 @@ class TextDate extends StatelessWidget {
 }
 
 class CloseButton extends StatelessWidget {
-  const CloseButton({
-    super.key,
-  });
+  const CloseButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -475,12 +477,8 @@ class CloseButton extends StatelessWidget {
       top: 15,
       right: 15,
       child: IconButton(
-        icon: const Icon(
-          Icons.close,
-          color: Colors.black,
-          size: 20,
-        ),
-        onPressed: () => Navigator.pop(context), // Close the dialog
+        icon: const Icon(Icons.close, color: Colors.black, size: 20),
+        onPressed: () => Navigator.pop(context),
       ),
     );
   }
@@ -515,69 +513,52 @@ class TextIncome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isIncome
-        ? Text(
-            "Пополнение счета",
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-          )
-        : Text(
-            "Вывод средств",
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-          );
+    return Text(
+      isIncome ? "Пополнение счета" : "Вывод средств",
+      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+            fontSize: 14,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+    );
   }
 }
 
 class TopButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressedVacancies;
+  final bool isVacancies;
+  final EdgeInsets padding;
+  final double? width;
+
   const TopButton({
     super.key,
-    required String text,
-    required VoidCallback onPressedVacancies,
-    required bool isVacancies,
-    required EdgeInsets padding,
-    double? width,
-  })  : _text = text,
-        _padding = padding,
-        _onPressedVacancies = onPressedVacancies,
-        _isVacancies = isVacancies,
-        _width = width;
-
-  final EdgeInsets _padding;
-  final String _text;
-  final VoidCallback _onPressedVacancies;
-  final bool _isVacancies;
-  final double? _width;
+    required this.text,
+    required this.onPressedVacancies,
+    required this.isVacancies,
+    required this.padding,
+    this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: _padding,
+      padding: padding,
       child: InkWell(
-        child: GestureDetector(
-          onTap: () {
-            _onPressedVacancies();
-          },
-          child: Container(
-            width: _width,
-            height: 36,
-            decoration: BoxDecoration(
-              color: !_isVacancies ? background : blue1,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: Text(
-                _text,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: _isVacancies ? Colors.white : Colors.black,
-                    ),
-              ),
+        onTap: onPressedVacancies,
+        child: Container(
+          width: width,
+          height: 36,
+          decoration: BoxDecoration(
+            color: isVacancies ? blue1 : background,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: isVacancies ? Colors.white : Colors.black,
+                  ),
             ),
           ),
         ),
@@ -598,80 +579,142 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobileLayout = !kIsWeb || MediaQuery.of(context).size.width < 800;
+
+    return isMobileLayout
+        ? _buildMobileLayout(context)
+        : _buildWebLayout(context);
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
         backgroundColor: background,
-        appBar: AppBar(
-          backgroundColor: background,
-          centerTitle: true,
-          title: Text(
-            'Вывод средств',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+        centerTitle: true,
+        title: Text(
+          'Вывод средств',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+        ),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
           ),
         ),
-        body: Container(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const BalanceBlock(
+              balance: "39000",
+              title: "Доступно к выводу:",
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Введите сумму к выводу:",
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 10),
+            _buildTextField(),
+            const Spacer(),
+            WithdrawalButton(
+              text: "Подтвердить сумму",
+              onPressed: () {},
+            ),
+            const SizedBox(height: 25),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWebLayout(BuildContext context) {
+    return Scaffold(
+      backgroundColor: background,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(56.0),
+        child: Center(
+          child: Container(
+            constraints: BoxConstraints(maxWidth: 1024),
+            child: AppBar(
+              backgroundColor: background,
+              centerTitle: true,
+              title: Text(
+                'Вывод средств',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1024),
           decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-            ),
+            borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 15,
-              right: 15,
-              top: 25,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const BalanceBlock(
-                  balance: "39000",
-                  title: "Доступно к выводу:",
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  "Введите сумму к выводу:",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  onChanged: (value) {
-                    sum = value;
-                  },
-                  decoration: const InputDecoration(
-                    hintText: 'Сумма',
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    fillColor: background,
-                    filled: true,
-                  ),
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.w400,
-                      ),
-                ),
-                const Spacer(),
-                WithdrawalButton(
-                  text: "Подтвердить сумму",
-                  onPressed: () {},
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-              ],
-            ),
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const BalanceBlock(
+                balance: "39000",
+                title: "Доступно к выводу:",
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Введите сумму к выводу:",
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 10),
+              _buildTextField(),
+              const SizedBox(height: 40),
+              WithdrawalButton(
+                text: "Подтвердить сумму",
+                onPressed: () {},
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField() {
+    return TextField(
+      onChanged: (value) {
+        sum = value;
+      },
+      decoration: const InputDecoration(
+        hintText: 'Сумма',
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        fillColor: background,
+        filled: true,
+      ),
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.w400,
+          ),
+    );
   }
 }

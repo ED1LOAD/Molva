@@ -1,23 +1,20 @@
+import 'package:app/features/agent_home_page/view/balances_screen.dart';
+import 'package:app/features/agent_home_page/view/home_screen.dart';
+import 'package:app/features/agent_home_page/view/profile_screen.dart';
 import 'package:app/features/agent_home_page/view/settings_screen.dart';
-import 'package:app/features/distributor_home_page/view/balance_screen.dart';
-import 'package:app/features/distributor_home_page/view/vacancies_screen.dart';
+import 'package:app/features/agent_home_page/view/vacancies_screen/view.dart';
+import 'package:app/features/distributor_pesonal_account/view/main_page.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class HomeScreenDistributor extends StatefulWidget {
-  const HomeScreenDistributor({super.key});
-
-  @override
-  HomeScreenDistributorState createState() => HomeScreenDistributorState();
-}
-
-class HomeScreenDistributorState extends State<HomeScreenDistributor> {
+class HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 1;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    BalancesScreenDistrtibutor(), // Экран балансов
-    VacanciesScreenDistributor(), // Экран вакансий
-    SettingsScreen(title: 'Настройки'), // Экран настроек
+    BalancesScreen(), // Экран балансов
+    VacanciesScreen(), // Экран вакансий
+    DistHomePage(), // Экран настроек
   ];
 
   void _onItemTapped(int index) {
@@ -32,22 +29,55 @@ class HomeScreenDistributorState extends State<HomeScreenDistributor> {
       backgroundColor: background,
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white, // Цвет фона нижнего меню
-        selectedItemColor: blue1, // Цвет выбранного элемента
-        unselectedItemColor: darkgray, // Цвет не выбранных элементов
+        backgroundColor: Colors.white,
+        selectedItemColor: blue1,
+        unselectedItemColor: darkgray,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
+            icon: SvgPicture.asset(
+              'assets/icons/balance.svg',
+              width: 24.0,
+              height: 24.0,
+              color: darkgray,
+            ),
+            activeIcon: SvgPicture.asset(
+              'assets/icons/balance.svg',
+              width: 24.0,
+              height: 24.0,
+              color: blue1,
+            ),
             label: 'Баланс',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.work),
+            icon: SvgPicture.asset(
+              'assets/icons/vacancies.svg',
+              width: 24.0,
+              height: 24.0,
+              color: darkgray,
+            ),
+            activeIcon: SvgPicture.asset(
+              'assets/icons/vacancies.svg',
+              width: 24.0,
+              height: 24.0,
+              color: blue1,
+            ),
             label: 'Вакансии',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: SvgPicture.asset(
+              'assets/icons/settings.svg',
+              width: 24.0,
+              height: 24.0,
+              color: darkgray,
+            ),
+            activeIcon: SvgPicture.asset(
+              'assets/icons/settings.svg',
+              width: 24.0,
+              height: 24.0,
+              color: blue1,
+            ),
             label: 'Настройки',
           ),
         ],

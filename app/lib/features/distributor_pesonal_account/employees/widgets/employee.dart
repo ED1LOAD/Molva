@@ -6,25 +6,25 @@ class Employee extends ChangeNotifier {
 
   Employee({
     required this.name,
-    this.isEditing = false,
-  });
+      this.isEditing = false,
+    });
 
-  Employee copyWith({
-    String? name,
-    String? position,
-    String? status,
-    bool? isEditing,
-  }) {
-    return Employee(
-      name: name ?? this.name,
-      isEditing: isEditing ?? this.isEditing,
-    );
+    Employee copyWith({
+      String? name,
+      String? position,
+      String? status,
+      bool? isEditing,
+    }) {
+      return Employee(
+        name: name ?? this.name,
+        isEditing: isEditing ?? this.isEditing,
+      );
+    }
   }
-}
 
-class EmployeeCard extends StatefulWidget {
-  final Employee employee;
-  final Function() onToggleEditing;
+  class EmployeeCard extends StatefulWidget {
+    final Employee employee;
+    final Function() onToggleEditing;
   final Function(String) onUpdateEmployee;
   EmployeeCard({
     required this.employee,

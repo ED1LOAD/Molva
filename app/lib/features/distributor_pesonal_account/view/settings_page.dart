@@ -18,7 +18,7 @@ class RequirButton extends StatelessWidget {
       child: Container(
         height: 36,
         decoration: BoxDecoration(
-          color: Color(0xFF0C0C0C),
+          color: const Color(0xFF0C0C0C),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
@@ -51,7 +51,7 @@ class SupportButton extends StatelessWidget {
       child: Container(
         height: 36,
         decoration: BoxDecoration(
-          color: Color(0xFF888888),
+          color: const Color(0xFF888888),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
@@ -71,14 +71,14 @@ class CompanyManagementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFFFFF), // Задний фон приложения
+      backgroundColor: const Color(0xFFFFFFFF), // Задний фон приложения
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70), // Высота AppBar
+        preferredSize: const Size.fromHeight(70), // Высота AppBar
         child: AppBar(
           toolbarHeight: 70, // Высота AppBar
-          backgroundColor: Color(0xFFF5F5F7), // Цвет фона AppBar
-          flexibleSpace: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 25.0),
+          backgroundColor: const Color(0xFFF5F5F7), // Цвет фона AppBar
+          flexibleSpace: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 25.0),
             child: Center(
               child: Text(
                 'Управление компанией',
@@ -98,16 +98,16 @@ class CompanyManagementPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
+            const Text(
               'Чтобы пользоваться приложением завершите регистрацию',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold, // Жирный текст
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Graphik LCG',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -116,23 +116,23 @@ class CompanyManagementPage extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 hintText: 'mail@mail.ru',
-                fillColor: Color(0xFFF5F5F7),
-                hintStyle: TextStyle(
+                fillColor: const Color(0xFFF5F5F7),
+                hintStyle: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF0C0C0C),
                 ),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 11, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 11, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11),
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
-              padding: EdgeInsets.all(10),
-              child: Text(
+              padding: const EdgeInsets.all(10),
+              child: const Text(
                 'На указанный адрес было направлено письмо. Подтвердите почту, чтобы продолжить',
                 style: TextStyle(
                   fontSize: 14,
@@ -141,17 +141,17 @@ class CompanyManagementPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Данные при регистрации',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold, // Жирный текст
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Graphik LCG',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -159,22 +159,22 @@ class CompanyManagementPage extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 hintText: 'Иванов Иван Иванович',
-                fillColor: Color(0xFFF5F5F7),
-                hintStyle: TextStyle(
+                fillColor: const Color(0xFFF5F5F7),
+                hintStyle: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF0C0C0C),
                 ),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 11, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 11, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11),
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Graphik LCG',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -182,22 +182,22 @@ class CompanyManagementPage extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 hintText: 'mail@mail.ru',
-                fillColor: Color(0xFFF5F5F7),
-                hintStyle: TextStyle(
+                fillColor: const Color(0xFFF5F5F7),
+                hintStyle: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF0C0C0C),
                 ),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 11, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 11, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11),
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Graphik LCG',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -205,31 +205,35 @@ class CompanyManagementPage extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 hintText: '+7-999-999-9999',
-                fillColor: Color(0xFFF5F5F7),
-                hintStyle: TextStyle(
+                fillColor: const Color(0xFFF5F5F7),
+                hintStyle: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF0C0C0C),
                 ),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 11, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 11, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SupportButton(
                 text: 'Реквизиты',
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CompanyRequirements(),
+                        builder: (context) => CompanyRequirementsLE(),
                       ));
                 }),
-            SizedBox(height: 20),
-            SupportButton(text: 'Поддержка', onPressed: () {}),
+            const SizedBox(height: 20),
+            SupportButton(
+                text: 'Поддержка',
+                onPressed: () {
+                  Navigator.pushNamed(context, '/support_chat');
+                }),
           ],
         ),
       ),

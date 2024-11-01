@@ -1,95 +1,119 @@
 import 'package:app/features/agent_home_page/view/balances_screen.dart';
-import 'package:app/features/distributor_home_page/view/vacancies_screen.dart';
 import 'package:app/features/distributor_pesonal_account/employees/employees.dart';
-import 'package:app/features/distributor_home_page/widget/home_screen_widget.dart';
-import 'package:app/features/distributor_pesonal_account/view/settings_page.dart';
+import 'package:app/features/distributor_pesonal_account/view/requirments.dart';
+import 'package:app/features/distributor_pesonal_account/view/requirments_for_IP.dart';
 import 'package:app/theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:app/features/distributor_pesonal_account/view/main_page.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // Импортируйте страницу CompanyRequirements
 
 class DistHomePage extends StatefulWidget {
   const DistHomePage({super.key});
 
   @override
-  State<DistHomePage> createState() => _DistHomePageState();
+  State<DistHomePage> createState() => DistHomePageState();
 }
 
-class _DistHomePageState extends State<DistHomePage> {
-  // int _selectedIndex = 1;
-  // static final List<Widget> _widgetOptions = <Widget>[
-  //   BalancesScreen(), // Экран балансов
-  //   VacanciesScreenDistributor(), // Экран вакансий
-  //   CompanyManagementPage(), // Экран настроек
-  // ];
-
-  // void _onItemTapped(int index) {
-  //   setState(() {
-  //     _selectedIndex = index;
-  //   });
-  // }
+class DistHomePageState extends State<DistHomePage> {
+  final bool _hasCompanyDataAccess = true;
+  final bool _hasBankDataAccess = true;
 
   @override
   Widget build(BuildContext context) {
+    final isMobileLayout = !kIsWeb || MediaQuery.of(context).size.width < 800;
+    return isMobileLayout ? _buildMobileLayout() : _buildWebLayout();
+  }
+
+  Widget _buildMobileLayout() {
     return Scaffold(
       backgroundColor: background,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Column(
-          children: [
-            Text(
-              'Приветствуем,',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontFamily: 'Graphik LCG',
-                  height: 1.2),
-              textAlign: TextAlign.left,
-            ),
-            Text(
-              'Иван Иванович',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontFamily: 'Graphik LCG',
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ],
-        ),
-      ),
-      body: const Padding(
-        padding: EdgeInsets.only(
+      body: Padding(
+        padding: const EdgeInsets.only(
           left: 15,
           right: 15,
           top: 25,
         ),
         child: Column(
           children: [
-            BalanceCard(balance: '0'),
-            SizedBox(height: 20),
-            OptionsGrid(),
+            const WelcomeText(),
+            const SizedBox(height: 20),
+            if (_hasBankDataAccess) const BalanceCard(balance: '0'),
+            const SizedBox(height: 20),
+            OptionsGrid(
+              hasCompanyDataAccess: _hasCompanyDataAccess,
+            ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white, // Цвет фона нижнего меню
-        selectedItemColor: blue1, // Цвет выбранного элемента
-        unselectedItemColor: darkgray, // Цвет не выбранных элементов
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label: 'Баланс',
+    );
+  }
+
+  Widget _buildWebLayout() {
+    return Scaffold(
+      backgroundColor: background,
+      body: Center(
+        child: Container(
+          width: 1024,
+          margin: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey.shade300),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade200,
+                blurRadius: 20.0,
+                spreadRadius: 10.0,
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: 'Вакансии',
+          child: Column(
+            children: [
+              const WelcomeText(),
+              const SizedBox(height: 20),
+              if (_hasBankDataAccess) const BalanceCard(balance: '0'),
+              const SizedBox(height: 20),
+              Expanded(
+                  child: WebOptionsGrid(
+                hasCompanyDataAccess: _hasCompanyDataAccess,
+              )),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Настройки',
+        ),
+      ),
+    );
+  }
+}
+
+class WelcomeText extends StatelessWidget {
+  const WelcomeText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Align(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Приветствуем,',
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontFamily: 'Graphik LCG',
+                height: 1.2),
+          ),
+          Text(
+            'Иван Иванович',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontFamily: 'Graphik LCG',
+            ),
           ),
         ],
       ),
@@ -98,7 +122,7 @@ class _DistHomePageState extends State<DistHomePage> {
 }
 
 class BalanceCard extends BalanceBlock {
-  const BalanceCard({required super.balance});
+  const BalanceCard({super.key, required super.balance});
 
   @override
   Widget build(BuildContext context) {
@@ -114,30 +138,36 @@ class BalanceCard extends BalanceBlock {
           top: 15,
           left: 15,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                  ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
+                ),
+                Text(
+                  '$balance ₽',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                      ),
+                ),
+              ],
             ),
-            Text(
-              '$balance ₽',
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 26,
-                  ),
+            IconButton(
+              onPressed: () {
+                //Navigator.push(context,MaterialPageRoute(builder: (context) => BalancesScreen()));
+              },
+              icon: const Icon(Icons.arrow_forward, color: Colors.white),
             ),
-            /* IconButton(onPressed: (){
-              //Navigator.push(context,MaterialPageRoute(builder: (context) => BalancesScreen()));
-
-            }, icon:const Image(image:AssetImage('app/assets/balances/arrow.png')),
-            ),*/
           ],
         ),
       ),
@@ -146,46 +176,53 @@ class BalanceCard extends BalanceBlock {
 }
 
 class OptionsGrid extends StatelessWidget {
-  const OptionsGrid({super.key});
+  final bool hasCompanyDataAccess;
+  const OptionsGrid({super.key, required this.hasCompanyDataAccess});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: GridView.count(
         crossAxisCount: 2,
-        childAspectRatio: 2,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
+        childAspectRatio: 1.3,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
         children: [
+          if (hasCompanyDataAccess)
+            OptionCard(
+              svgIconPath: 'assets/icons/company_requirements.svg',
+              label: 'Данные компании',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CompanyRequirementsLE()),
+                );
+              },
+            ),
           OptionCard(
-            icon: Icons.info,
-            label: 'Данные компании',
-            onPressed: () {
-              //
-            },
-          ),
-          OptionCard(
-            icon: Icons.people,
+            svgIconPath: 'assets/icons/employees.svg',
             label: 'Сотрудники',
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => EmployeeWidget()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const EmployeeWidget()));
             },
           ),
           OptionCard(
-            icon: Icons.notifications,
+            svgIconPath: 'assets/icons/notification.svg',
             label: 'Уведомления',
-            onPressed: () {
-              // Надо сцепить с чем-то
-            },
+            onPressed: () {},
           ),
           OptionCard(
-            icon: Icons.support,
+            svgIconPath: 'assets/icons/support_chat.svg',
             label: 'Поддержка',
             notificationCount: 1,
             onPressed: () {
-              // Надо сцепить с чем-то
+              Navigator.pushNamed(context, '/support_chat');
             },
+            isSupport: true,
           ),
         ],
       ),
@@ -193,17 +230,73 @@ class OptionsGrid extends StatelessWidget {
   }
 }
 
+class WebOptionsGrid extends StatelessWidget {
+  final bool hasCompanyDataAccess;
+  const WebOptionsGrid({super.key, required this.hasCompanyDataAccess});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      crossAxisCount: 4,
+      childAspectRatio: 1.5,
+      mainAxisSpacing: 1,
+      crossAxisSpacing: 1,
+      children: [
+        if (hasCompanyDataAccess)
+          OptionCard(
+            svgIconPath: 'assets/icons/company_requirements.svg',
+            label: 'Данные компании',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CompanyRequirementsLE()),
+              );
+            },
+          ),
+        OptionCard(
+          svgIconPath: 'assets/icons/employees.svg',
+          label: 'Сотрудники',
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const EmployeeWidget()),
+            );
+          },
+        ),
+        OptionCard(
+          svgIconPath: 'assets/icons/notification.svg',
+          label: 'Уведомления',
+          onPressed: () {},
+        ),
+        OptionCard(
+          svgIconPath: 'assets/icons/support_chat.svg',
+          label: 'Поддержка',
+          notificationCount: 1,
+          onPressed: () {
+            // Navigator.pushNamed(context, '/support_chat');
+          },
+          isSupport: true,
+        ),
+      ],
+    );
+  }
+}
+
 class OptionCard extends StatelessWidget {
-  final IconData icon;
+  final String svgIconPath;
   final String label;
   final int? notificationCount;
   final VoidCallback onPressed;
+  final bool isSupport;
 
-  OptionCard({
-    required this.icon,
+  const OptionCard({
+    super.key,
+    required this.svgIconPath,
     required this.label,
     this.notificationCount,
     required this.onPressed,
+    this.isSupport = false,
   });
 
   @override
@@ -211,43 +304,68 @@ class OptionCard extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        height: 10,
-        width: 10,
-        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
+          color: isSupport ? Colors.grey[600] : Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color:
+                isSupport ? Colors.white : Colors.grey.shade300, // Цвет границы
+            width: 1, // Толщина границы
+          ),
         ),
-        child: Stack(
-          children: [
-            Row(
-              children: [
-                Icon(icon, size: 30),
-                SizedBox(width: 10),
-                Flexible(
-                  child: Text(
-                    label,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ],
-            ),
-            if (notificationCount != null && notificationCount! > 0)
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Stack(
+            children: [
               Positioned(
-                right: 0,
-                child: Container(
-                  padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    '$notificationCount',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                  ),
+                top: 10,
+                left: 10,
+                child: SvgPicture.asset(
+                  svgIconPath,
+                  width: 24,
+                  height: 24,
+                  color: isSupport ? Colors.white : Colors.blue,
                 ),
               ),
-          ],
+              Positioned(
+                bottom: 10,
+                left: 10,
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: isSupport ? Colors.white : Colors.black,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              if (notificationCount != null && notificationCount! > 0)
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 24,
+                      minHeight: 24,
+                    ),
+                    child: Text(
+                      '$notificationCount',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:app/constants.dart';
 import 'package:app/features/agent_home_page/view/vacancies_screen/widgets/vacancy.dart';
 import 'package:app/features/agent_home_page/view/vacancies_screen/widgets/vacancy_widget.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -24,7 +25,7 @@ class VacanciesScreenDistributor extends StatefulWidget {
 
 class _VacanciesScreenDistributorState
     extends State<VacanciesScreenDistributor> {
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
   final List<Vacancy> vacancies = [
     Vacancy(
       id: 0,
@@ -126,6 +127,14 @@ class _VacanciesScreenDistributorState
 
   @override
   Widget build(BuildContext context) {
+    final isMobileLayout = !kIsWeb || MediaQuery.of(context).size.width < 800;
+
+    return isMobileLayout
+        ? _buildMobileLayout(context)
+        : _buildWebLayout(context);
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
@@ -151,31 +160,124 @@ class _VacanciesScreenDistributorState
           ),
         ],
       ),
-      floatingActionButton: CircleAvatar(
-        radius: 23,
-        backgroundColor: blue2,
-        child: IconButton(
-          onPressed: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => VacancyCreationPage(),
-              ),
-            )
-          },
-          icon: const Icon(Icons.add),
-          color: Colors.white,
-        ),
-      ),
       body: Column(
         children: [
           const SizedBox(height: 5),
           _topButtons(),
           const SizedBox(height: 15),
           _isVacancies ? Flexible(child: _vacancyListBuilder()) : Container(),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+            child: MaterialButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => VacancyCreationPage(),
+                  ),
+                );
+              },
+              child: Container(
+                height: 48,
+                decoration: BoxDecoration(
+                  gradient: gradient, // Use the same gradient as in the image
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    "+ Создать вакансию",
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.white,
+                        ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
-      // body: _vacancyListBuilder(),
+    );
+  }
+
+  Widget _buildWebLayout(BuildContext context) {
+    return Scaffold(
+      backgroundColor: background,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56.0),
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 1024),
+            child: AppBar(
+              backgroundColor: background,
+              clipBehavior: Clip.none,
+              title: Text(
+                'Вакансии',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 16.0,
+                    ),
+              ),
+              centerTitle: true,
+              leading: IconButton(
+                icon: const Icon(Icons.sort),
+                color: darkgray,
+                onPressed: () {},
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  color: darkgray,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1024),
+          child: Column(
+            children: [
+              const SizedBox(height: 5),
+              _topButtons(),
+              const SizedBox(height: 15),
+              _isVacancies
+                  ? Flexible(child: _vacancyListBuilder())
+                  : Container(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 15.0, vertical: 10.0),
+                child: MaterialButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VacancyCreationPage(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 48,
+                    decoration: BoxDecoration(
+                      gradient: gradient,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "+ Создать вакансию",
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Colors.white,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -187,7 +289,7 @@ class _VacanciesScreenDistributorState
       itemCount: vacancies.length + 1,
       itemBuilder: (context, index) {
         if (index == vacancies.length) {
-          return isLoading ? CircularProgressIndicator() : Container();
+          return isLoading ? const CircularProgressIndicator() : Container();
         }
         final vacancy = vacancies[index];
         Uint8List? imageBytes = base64Decode(vacancy.picture);
@@ -213,7 +315,7 @@ class _VacanciesScreenDistributorState
       itemCount: vacanciesWithResposes.length + 1,
       itemBuilder: (context, index) {
         if (index == vacanciesWithResposes.length) {
-          return isLoading ? CircularProgressIndicator() : Container();
+          return isLoading ? const CircularProgressIndicator() : Container();
         }
         final vacancy = vacanciesWithResposes[index];
         var imageBytes = base64Decode(vacancy.picture);
@@ -311,13 +413,21 @@ class VacancyCreationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobileLayout = !kIsWeb || MediaQuery.of(context).size.width < 800;
+
+    return isMobileLayout
+        ? _buildMobileLayout(context)
+        : _buildWebLayout(context);
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
         backgroundColor: background,
         clipBehavior: Clip.none,
         title: Text(
-          'Публикация вакансии',
+          'Новая вакансия',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 16.0,
               ),
@@ -410,11 +520,134 @@ class VacancyCreationPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PublicationNote()),
+                          builder: (context) => const PublicationNote()),
                     );
                   },
                 ),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWebLayout(BuildContext context) {
+    return Scaffold(
+      backgroundColor: background,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56.0),
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 1024),
+            child: AppBar(
+              backgroundColor: background,
+              clipBehavior: Clip.none,
+              title: Text(
+                'Новая вакансия',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 16.0,
+                    ),
+              ),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  color: darkgray,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1024),
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+              top: 25,
+              bottom: 25,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFieldVacancy(
+                    text: "Название вакансии",
+                    onChanged: (value) {
+                      title = value;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldVacancy(
+                    text: "Адрес",
+                    onChanged: (value) {},
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldVacancy(
+                    text: "Формат работы",
+                    onChanged: (value) {},
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldVacancy(
+                    text: "Вознаграждение агента",
+                    onChanged: (value) {},
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldVacancy(
+                    text: "Оплата",
+                    onChanged: (value) {},
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldVacancy(
+                    text: "Требования",
+                    onChanged: (value) {},
+                    lines: 5,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldVacancy(
+                    text: "Обязанности",
+                    onChanged: (value) {},
+                    lines: 5,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  NextButton(
+                    text: "Продолжить",
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PublicationNote()),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -451,7 +684,6 @@ class NextButton extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }
 
@@ -506,6 +738,13 @@ class _PublicationNoteState extends State<PublicationNote> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobileLayout = !kIsWeb || MediaQuery.of(context).size.width < 800;
+    return isMobileLayout
+        ? _buildMobileLayout(context)
+        : _buildWebLayout(context);
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
@@ -620,6 +859,138 @@ class _PublicationNoteState extends State<PublicationNote> {
                 },
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWebLayout(BuildContext context) {
+    return Scaffold(
+      backgroundColor: background,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56.0),
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 1024),
+            child: AppBar(
+              backgroundColor: background,
+              clipBehavior: Clip.none,
+              title: Text(
+                'Публикация вакансии',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 16.0,
+                    ),
+              ),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  color: darkgray,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1024),
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+              top: 25,
+              bottom: 25,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Обратите внимание!",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  """Для публикации вакансии будет произведена заморозка средств, в размере суммы вознаграждения Агента и индивидуальной комиссии сервиса *сумма*. В любой моменты вы можете снять публикацию вакансии и вернуть средства.""",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w400,
+                        height: 19.6 / 15.0,
+                      ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: Checkbox(
+                        activeColor: blue1,
+                        splashRadius: 1,
+                        value: _isAgreed,
+                        onChanged: (value) {
+                          setState(() {
+                            _isAgreed = value!;
+                          });
+                        },
+                      ),
+                    ),
+                    RichText(
+                      maxLines: 2,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Я прочитал и согласен с ",
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w400,
+                                      height: 19.6 / 15.0,
+                                    ),
+                          ),
+                          TextSpan(
+                            text: "условиями оферты",
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontSize: 15.0,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.w400,
+                                      height: 19.6 / 15.0,
+                                      color: blue1,
+                                    ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                const Spacer(),
+                NextButton(
+                  text: "Продолжить",
+                  onPressed: () {
+                    if (!_isAgreed) {
+                      return;
+                    }
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    _showDialog();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

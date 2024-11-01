@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter/foundation.dart';
 import 'package:app/constants.dart';
 import 'package:app/features/agent_home_page/view/vacancies_screen/widgets/view.dart';
 import 'package:crypto/crypto.dart';
@@ -24,7 +24,7 @@ class VacanciesScreen extends StatefulWidget {
 }
 
 class _VacanciesScreenState extends State<VacanciesScreen> {
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
   final List<Vacancy> vacancies = [
     Vacancy(
       id: 1,
@@ -70,8 +70,8 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
 
   int page = 1;
   bool isLoading = false;
-  ScrollController _scrollControllerVacancies = ScrollController();
-  ScrollController _scrollControllerResponse = ScrollController();
+  final ScrollController _scrollControllerVacancies = ScrollController();
+  final ScrollController _scrollControllerResponse = ScrollController();
   final String access_token = "aaa";
   final String agent_id = "aaa";
 
@@ -81,8 +81,6 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
   @override
   void initState() {
     super.initState();
-    // _scrollControllerVacancies.addListener(_scrollListener);
-    // _fetchVacancies();
   }
 
   @override
@@ -148,6 +146,12 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobileLayout = !kIsWeb || MediaQuery.of(context).size.width < 800;
+
+    return isMobileLayout ? _buildMobileLayout() : _buildWebLayout();
+  }
+
+  Widget _buildMobileLayout() {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
@@ -186,7 +190,62 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
               : Flexible(child: _respondsListBuilder()),
         ],
       ),
-      // body: _vacancyListBuilder(),
+    );
+  }
+
+  Widget _buildWebLayout() {
+    return Scaffold(
+      backgroundColor: background,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56.0),
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 1024),
+            child: AppBar(
+              backgroundColor: background,
+              clipBehavior: Clip.none,
+              title: Text(
+                'Список вакансий',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 16.0,
+                    ),
+              ),
+              centerTitle: true,
+              leading: IconButton(
+                icon: const Icon(Icons.sort),
+                color: darkgray,
+                onPressed: () {},
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  color: darkgray,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1024),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: [
+              TopButtons(
+                isVacancies: _isVacancies,
+                onPressedVacancies: _onPressedVacancies,
+                isResponds: _isResponds,
+                onPressedResponds: _onPressedResponds,
+              ),
+              _isVacancies
+                  ? Flexible(child: _vacancyListBuilder())
+                  : Flexible(child: _respondsListBuilder()),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -198,7 +257,7 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
       itemCount: vacancies.length + 1,
       itemBuilder: (context, index) {
         if (index == vacancies.length) {
-          return isLoading ? CircularProgressIndicator() : Container();
+          return isLoading ? const CircularProgressIndicator() : Container();
         }
         final vacancy = vacancies[index];
         var imageBytes = base64Decode(vacancy.picture);
@@ -221,7 +280,7 @@ class _VacanciesScreenState extends State<VacanciesScreen> {
       itemCount: vacanciesWithResposes.length + 1,
       itemBuilder: (context, index) {
         if (index == vacanciesWithResposes.length) {
-          return isLoading ? CircularProgressIndicator() : Container();
+          return isLoading ? const CircularProgressIndicator() : Container();
         }
         final vacancy = vacanciesWithResposes[index];
         var imageBytes = base64Decode(vacancy.picture);

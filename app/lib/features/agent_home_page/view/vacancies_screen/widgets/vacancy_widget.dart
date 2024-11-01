@@ -47,7 +47,7 @@ class VacancyWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: SizedBox(
-                    height: 175.0,
+                    height: 185.0,
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: _padding,

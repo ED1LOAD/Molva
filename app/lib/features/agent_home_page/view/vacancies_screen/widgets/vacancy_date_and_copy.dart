@@ -1,7 +1,9 @@
 import 'package:app/features/agent_home_page/view/vacancies_screen/view/vacacy_response_page.dart';
 import 'package:app/features/agent_home_page/view/vacancies_screen/widgets/view.dart';
+import 'package:app/features/molva_form/view/molva_form.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'vacancy.dart';
 
@@ -18,7 +20,7 @@ class VacancyDateAndCopy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        bottom: 5,
+        bottom: 0,
       ),
       child: Container(
         color: Colors.white,
@@ -64,12 +66,17 @@ class VacancyDateAndCopy extends StatelessWidget {
             ),
             child: Center(
               child: IconButton(
-                onPressed: () {
-                  linkGenerator.CopyToClipboard(context);
-                },
-                color: Colors.white,
-                icon: Center(child: const Icon(Icons.copy)),
-              ),
+                  onPressed: () {
+                    linkGenerator.CopyToClipboard(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const JobApplicationForm(),
+                      ),
+                    );
+                  },
+                  color: Colors.white,
+                  icon: SvgPicture.asset('assets/icons/vacancy_copy.svg')),
             ),
           ),
         ]),
